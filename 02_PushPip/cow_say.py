@@ -1,4 +1,4 @@
-from cowsay import cowsay
+from cowsay import cowsay, list_cows
 import argparse
 
 parser = argparse.ArgumentParser()
@@ -16,8 +16,13 @@ parser.add_argument("-w", "--width", type=int, default=40, \
     help="The width of the text bubble")
 parser.add_argument("-cw", "--cowfile", \
     help="A custom string representing a cow")
+parser.add_argument("-l", action='store_true', \
+    help="The available builtin cows")
 args = parser.parse_args()
-args_dict = vars(args)
-print(cowsay(**args_dict))
-
+if args.l:
+    print(list_cows())
+else:
+    args_dict = vars(args)
+    args_dict.pop("l")
+    print(cowsay(**args_dict))
 
