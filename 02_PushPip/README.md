@@ -1,6 +1,6 @@
 # Example of using cow_say.py
 1)
-python3 cow_say.py "Hello, world!\nPython" -e "@@"
+python3 cow_say.py Hello! -e "@@"
 ```
  ________ 
 < Hello! >
