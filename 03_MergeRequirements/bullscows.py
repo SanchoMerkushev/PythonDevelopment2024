@@ -32,10 +32,12 @@ def gameplay(ask: callable, inform: callable, words: list[str]) -> int:
 
 
 def ask(prompt: str, valid: list[str] = None) -> str:
-    guess = input(cw.cowsay(prompt, cow=cw.get_random_cow()) + "\n")
+    with open('SpongeBob.cow') as file_cow:
+        sponge_bob = cw.read_dot_cow(file_cow)
+    guess = input(cw.cowsay(prompt, cowfile=sponge_bob) + "\n")
     while valid and guess not in valid:
         print("Word not from valid, try again")
-        guess = input(cw.cowsay(prompt, cow=cw.get_random_cow()) + "\n")
+        guess = input(cw.cowsay(prompt, cowfile=sponge_bob) + "\n")
     return guess
 
 
