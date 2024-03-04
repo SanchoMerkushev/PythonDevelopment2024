@@ -46,9 +46,11 @@ parser = argparse.ArgumentParser()
 parser.add_argument("dictionary", help="sourse of words")
 parser.add_argument("length", help="length", type=int, default=5)
 args = parser.parse_args()
-possible_words = []
 if args.dictionary.split(":")[0] in ["http", "https"]:
     with urlopen(args.dictionary) as input_url:
         possible_words = input_url.read().decode('utf-8').splitlines()
+else:
+    with open(args.dictionary) as input_file:
+        possible_words = input_file.read().splitlines()
 possible_words = list(filter(lambda w: len(w) == args.length, possible_words))
 gameplay(ask, inform, possible_words)
