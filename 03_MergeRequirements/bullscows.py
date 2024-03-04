@@ -2,6 +2,7 @@ from collections import Counter
 from random import choice
 from urllib.request import urlopen
 import argparse
+import cowsay as cw
 
 
 def bullscows(guess: str, secret: str) -> (int, int):
@@ -31,15 +32,16 @@ def gameplay(ask: callable, inform: callable, words: list[str]) -> int:
 
 
 def ask(prompt: str, valid: list[str] = None) -> str:
-    guess = input(prompt)
+    guess = input(cw.cowsay(prompt, cow=cw.get_random_cow()) + "\n")
     while valid and guess not in valid:
         print("Word not from valid, try again")
-        guess = input(prompt)
+        guess = input(cw.cowsay(prompt, cow=cw.get_random_cow()) + "\n")
     return guess
 
 
 def inform(format_string: str, bulls: int, cows: int) -> None:
-    print(format_string.format(bulls, cows))
+    inf_str = format_string.format(bulls, cows)
+    print(cw.cowsay(inf_str, cow=cw.get_random_cow()))
 
 
 parser = argparse.ArgumentParser()
