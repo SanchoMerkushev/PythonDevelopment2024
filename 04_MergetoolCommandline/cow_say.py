@@ -7,8 +7,8 @@ class CowSayCMd(cmd.Cmd):
 
     def do_list_cows(self, arg):
         '''
-        List_cows show names of default avilaible cows
-        list_cows PATH show names of avilaible cows in the directory PATH
+        List_cows show names of default available cows
+        list_cows PATH show names of available cows in the directory PATH
         '''
         if arg:
             print(cowsay.list_cows(arg))
@@ -18,8 +18,8 @@ class CowSayCMd(cmd.Cmd):
     
     def do_make_bubble(self, arg):
         '''
-        Make a bubble with message (string)
-        Optional define width of message (int)
+        Make a bubble with message
+        Optional define width of message, default=40
         Example of using: make_bubble "Hello, world" 5
         '''
         arguments = shlex.split(arg)
@@ -30,6 +30,24 @@ class CowSayCMd(cmd.Cmd):
             dict_args["width"] = int(arguments[1])
         print(cowsay.make_bubble(arguments[0], **dict_args))
 
+
+    def do_cowsay(self, arg):
+        '''
+        Cow say a message
+        Optional arguments [-e eyes] [-t tongue] [-c cow]
+        Format of command: cowsay message [-e eyes] [-t tongue] [-c cow]
+        '''
+        dict_args = {}
+        available_options = ["-e", "-t", "-c"]
+        options = {"-e" : "eyes", "-t" : "tongue", "-c" : "cow"}
+        arguments = shlex.split(arg)
+        if not arguments:
+            return
+        for i in range(1, len(arguments) - 1):
+            if arguments[i] in available_options:
+                dict_args[options[arguments[i]]] = arguments[i + 1]
+        print(cowsay.cowsay(arguments[0], **dict_args))
+        
 
 if __name__ == '__main__':
     CowSayCMd().cmdloop() 
