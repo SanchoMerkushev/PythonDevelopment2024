@@ -62,8 +62,23 @@ class CowSayCMd(cmd.Cmd):
             if arguments[i] in available_options:
                 dict_args[options[arguments[i]]] = arguments[i + 1]
         print(cowsay.cowthink(arguments[0], **dict_args))
-        
-
+    
+    def complete_cowsay(self, text, line, begidx, endidx):
+        words = shlex.split(line[:endidx])
+        if not words:
+            return
+        if words[-1] == "-e":
+            return [eye.eyes for eye in cowsay.COW_OPTIONS.values()] + ["!!", "()"]
+        elif  words[-1] == "-T":
+            return [tongue.tongue for tongue in cowsay.COW_OPTIONS.values()] + ["U", "L", "T"]
+        elif words[-1] == "-f":
+            return cowsay.list_cows()
+        elif len(words) >= 2 and words[-2] == "-f":
+            return [name for name in cowsay.list_cows() if name.startswith(words[-1])]
+    
+    def complete_cowthink(self, text, line, begidx, endidx):
+        return self.complete_cowsay(text, line, begidx, endidx)
+            
 if __name__ == '__main__':
     CowSayCMd().cmdloop() 
 
