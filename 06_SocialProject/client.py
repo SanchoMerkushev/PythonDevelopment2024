@@ -13,9 +13,24 @@ class CowSayClientCmd(cmd.Cmd):
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     s.connect((host, port))
     
-    def do_login(self, arg):
-        self.s.send(f"login {arg}\n".encode())
+    def do_who(self, args):
+        self.s.send(f"who\n".encode())
 
+    def do_cows(self, args):
+        self.s.send(f"cows\n".encode())
+
+    def do_login(self, args):
+        self.s.send(f"login {args}\n".encode())
+
+    def do_say(self, args):
+        self.s.send(f"say {args}\n".encode())
+
+    def do_yield(self, args):
+        self.s.send(f"yield {args}\n".encode())
+    
+    def do_quit(self, args):
+        self.s.send(f"quit\n".encode())
+        exit(0)
 
 def get_response(cow_cmd):
     while True:
