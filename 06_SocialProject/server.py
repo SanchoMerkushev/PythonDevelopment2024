@@ -21,10 +21,14 @@ async def chat(reader, writer):
                 command = input_str.split()[0]
                 if command == "who":
                     await clients[me].put(" ".join([*cows_to_id]))
+                elif command == "response_who":
+                    add_num = "response " + input_str.split()[1] + " "
+                    await clients[me].put(add_num + " ".join([*cows_to_id]))
                 elif command == "cows":
-                    add_num = ""
-                    if len(input_str.split()) > 1:
-                        add_num = "response " + input_str.split()[1] + " "
+                    available_cows = [*(set(cowsay.list_cows()) - set(id_to_cows.values()))]
+                    await clients[me].put((" ".join(available_cows)))
+                elif command == "response_cows":
+                    add_num = "response " + input_str.split()[1] + " "
                     available_cows = [*(set(cowsay.list_cows()) - set(id_to_cows.values()))]
                     await clients[me].put((add_num + " ".join(available_cows)))
                 elif command == "login":

@@ -38,12 +38,28 @@ class CowSayClientCmd(cmd.Cmd):
     def complete_login(self, text, line, begidx, endidx):
         words = line[:endidx].split()
         word = ""
+        if len(words) > 2:
+            return []
         if len(words) > 1:
             word = words[1]
         num_message = random.randint(0, 10**9)
-        self.s.send(f"cows {num_message}\n".encode())
+        self.s.send(f"response_cows {num_message}\n".encode())
         while num_message not in information:
-            sleep(0.1)
+            pass
+        all_cows = information[num_message]
+        return [name for name in all_cows if name.startswith(word)]
+    
+    def complete_say(self, text, line, begidx, endidx):
+        words = line[:endidx].split()
+        word = ""
+        if len(words) > 1:
+            word = words[1]
+        if len(words) > 2:
+            return []
+        num_message = random.randint(0, 10**9)
+        self.s.send(f"response_who {num_message}\n".encode())
+        while num_message not in information:
+            pass
         all_cows = information[num_message]
         return [name for name in all_cows if name.startswith(word)]
         
